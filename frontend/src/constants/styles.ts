@@ -1,0 +1,133 @@
+import type { CardStyle, CardColor } from '@/types';
+
+export const CARD_STYLES: CardStyle[] = [
+  {
+    id: 'modern',
+    name: '现代风格',
+    description: '简洁现代的卡片设计，注重排版和留白',
+  },
+  {
+    id: 'minimal',
+    name: '极简风格',
+    description: '极简主义设计，最少的视觉元素',
+  },
+  {
+    id: 'elegant',
+    name: '优雅风格',
+    description: '优雅经典的设计，适合正式场合',
+  },
+  {
+    id: 'playful',
+    name: '活泼风格',
+    description: '活泼有趣的设计，适合创意内容',
+  },
+  {
+    id: 'professional',
+    name: '商务风格',
+    description: '专业商务的设计，适合工作场合',
+  },
+  {
+    id: 'gradient',
+    name: '渐变风格',
+    description: '精美的渐变背景，现代化的视觉效果',
+  },
+  {
+    id: 'glassmorphism',
+    name: '毛玻璃风格',
+    description: '半透明毛玻璃效果，层次丰富',
+  },
+  {
+    id: 'neumorphic',
+    name: '新拟态风格',
+    description: '柔和的阴影效果，现代简约',
+  },
+  {
+    id: 'cardstack',
+    name: '卡片堆叠风格',
+    description: '多层卡片堆叠效果，立体感强',
+  },
+];
+
+export const CARD_COLORS: CardColor[] = [
+  {
+    id: 'blue',
+    name: '蓝色系',
+    primary: '#3b82f6',
+    secondary: '#60a5fa',
+    accent: '#1d4ed8',
+    background: '#eff6ff',
+    text: '#1e3a8a',
+  },
+  {
+    id: 'green',
+    name: '绿色系',
+    primary: '#10b981',
+    secondary: '#34d399',
+    accent: '#059669',
+    background: '#ecfdf5',
+    text: '#064e3b',
+  },
+  {
+    id: 'purple',
+    name: '紫色系',
+    primary: '#8b5cf6',
+    secondary: '#a78bfa',
+    accent: '#7c3aed',
+    background: '#f5f3ff',
+    text: '#5b21b6',
+  },
+  {
+    id: 'red',
+    name: '红色系',
+    primary: '#ef4444',
+    secondary: '#f87171',
+    accent: '#dc2626',
+    background: '#fef2f2',
+    text: '#991b1b',
+  },
+  {
+    id: 'orange',
+    name: '橙色系',
+    primary: '#f97316',
+    secondary: '#fb923c',
+    accent: '#ea580c',
+    background: '#fff7ed',
+    text: '#9a3412',
+  },
+  {
+    id: 'gray',
+    name: '灰色系',
+    primary: '#6b7280',
+    secondary: '#9ca3af',
+    accent: '#4b5563',
+    background: '#f9fafb',
+    text: '#111827',
+  },
+  {
+    id: 'pink',
+    name: '粉色系',
+    primary: '#ec4899',
+    secondary: '#f472b6',
+    accent: '#db2777',
+    background: '#fdf2f8',
+    text: '#831843',
+  },
+  {
+    id: 'teal',
+    name: '青色系',
+    primary: '#14b8a6',
+    secondary: '#2dd4bf',
+    accent: '#0d9488',
+    background: '#f0fdfa',
+    text: '#134e4a',
+  },
+  {
+    id: 'indigo',
+    name: '靛蓝系',
+    primary: '#6366f1',
+    secondary: '#818cf8',
+    accent: '#4f46e5',
+    background: '#eef2ff',
+    text: '#312e81',
+  },
+];

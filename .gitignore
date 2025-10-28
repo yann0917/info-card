@@ -1,0 +1,84 @@
+# 依赖文件
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# 构建输出
+dist/
+build/
+*.tsbuildinfo
+
+# 环境变量
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE 和编辑器
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 操作系统
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 日志文件
+logs/
+*.log
+
+# 运行时数据
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# 覆盖率目录
+coverage/
+*.lcov
+.nyc_output/
+
+# 依赖锁定文件 (可选，如果你想在版本控制中包含锁定文件，请删除这些行)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# 临时文件
+tmp/
+temp/
+.tmp/
+
+# 缓存
+.cache/
+.parcel-cache/
+
+# 测试
+.jest/
+
+# 备份文件
+*.backup
+*.bak
+
+# 压缩文件
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Puppeteer
+.puppeteer/

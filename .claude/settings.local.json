@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create vite:*)",
+      "Bash(npm install:*)",
+      "Bash(npx shadcn@latest init:*)",
+      "Bash(npx tailwindcss init:*)",
+      "Bash(npx shadcn@latest add:*)",
+      "Bash(npm init:*)",
+      "Bash(chmod:*)",
+      "Read(//Users/yabo/wwwroot/**)",
+      "Bash(npm run dev:*)",
+      "Bash(rm:*)",
+      "Bash(pkill:*)",
+      "Bash(curl:*)",
+      "Bash(npx ts-node:*)",
+      "Bash(awk:*)",
+      "Bash(xargs kill:*)",
+      "Bash(npm run build:*)",
+      "Bash(npx tsc:*)",
+      "Read(//Applications/Google Chrome.app/**)",
+      "Bash(node:*)",
+      "Bash(npm uninstall:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
