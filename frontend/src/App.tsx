@@ -6,11 +6,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { InfoCard } from '@/components/InfoCard';
 import { SimpleStyledDownload } from '@/components/SimpleStyledDownload';
+import { ModeToggle } from '@/components/mode-toggle';
+import { useTheme } from '@/components/theme-provider';
 import { ApiService } from '@/services/api';
 import { CARD_COLORS, CARD_STYLES } from '@/constants/styles';
 import type { CardData, AIProvider, ProviderInfo, CardStyle, CardColor } from '@/types';
 
 function App() {
+  const { theme } = useTheme();
   const cardRef = useRef<HTMLDivElement>(null);
   const [inputType, setInputType] = useState<'url' | 'text'>('url');
   const [url, setUrl] = useState('');
@@ -90,15 +93,20 @@ function App() {
   const currentProvider = providers.find(p => p.name === selectedProvider);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+    <div className="min-h-screen bg-background p-4">
       <div className="max-w-6xl mx-auto">
-        <header className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">
-            智能信息卡片生成器
-          </h1>
-          <p className="text-gray-600">
-            输入链接或文本，AI 自动提取关键信息生成精美卡片
-          </p>
+        <header className="text-center mb-8 flex justify-between items-center">
+          <div className="flex-1">
+            <h1 className="text-4xl font-bold text-foreground mb-2">
+              智能信息卡片生成器
+            </h1>
+            <p className="text-muted-foreground">
+              输入链接或文本，AI 自动提取关键信息生成精美卡片
+            </p>
+          </div>
+          <div className="flex-shrink-0">
+            <ModeToggle />
+          </div>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -242,10 +250,10 @@ function App() {
                         key={color.id}
                         className={`p-3 rounded border-2 transition-all ${
                           selectedColor.id === color.id
-                            ? 'border-gray-800 shadow-md'
-                            : 'border-gray-200'
+                            ? 'border-foreground shadow-md'
+                            : 'border-border'
                         }`}
-                        style={{ backgroundColor: color.background }}
+                        style={{ backgroundColor: theme === 'dark' && color.darkBackground ? color.darkBackground : color.background }}
                         onClick={() => setSelectedColor(color)}
                       >
                         <div className="flex items-center gap-2">
@@ -253,7 +261,7 @@ function App() {
                             className="w-4 h-4 rounded"
                             style={{ backgroundColor: color.primary }}
                           />
-                          <span className="text-xs font-medium" style={{ color: color.text }}>
+                          <span className="text-xs font-medium" style={{ color: theme === 'dark' && color.darkText ? color.darkText : color.text }}>
                             {color.name}
                           </span>
                         </div>

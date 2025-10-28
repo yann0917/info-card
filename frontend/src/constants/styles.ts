@@ -57,6 +57,8 @@ export const CARD_COLORS: CardColor[] = [
     accent: '#1d4ed8',
     background: '#eff6ff',
     text: '#1e3a8a',
+    darkBackground: '#1e3a8a',
+    darkText: '#dbeafe',
   },
   {
     id: 'green',
@@ -66,6 +68,8 @@ export const CARD_COLORS: CardColor[] = [
     accent: '#059669',
     background: '#ecfdf5',
     text: '#064e3b',
+    darkBackground: '#064e3b',
+    darkText: '#d1fae5',
   },
   {
     id: 'purple',
@@ -75,6 +79,8 @@ export const CARD_COLORS: CardColor[] = [
     accent: '#7c3aed',
     background: '#f5f3ff',
     text: '#5b21b6',
+    darkBackground: '#5b21b6',
+    darkText: '#ede9fe',
   },
   {
     id: 'red',
@@ -84,6 +90,8 @@ export const CARD_COLORS: CardColor[] = [
     accent: '#dc2626',
     background: '#fef2f2',
     text: '#991b1b',
+    darkBackground: '#991b1b',
+    darkText: '#fee2e2',
   },
   {
     id: 'orange',
@@ -93,6 +101,8 @@ export const CARD_COLORS: CardColor[] = [
     accent: '#ea580c',
     background: '#fff7ed',
     text: '#9a3412',
+    darkBackground: '#9a3412',
+    darkText: '#fed7aa',
   },
   {
     id: 'gray',
@@ -102,6 +112,8 @@ export const CARD_COLORS: CardColor[] = [
     accent: '#4b5563',
     background: '#f9fafb',
     text: '#111827',
+    darkBackground: '#374151',
+    darkText: '#f3f4f6',
   },
   {
     id: 'pink',
@@ -111,6 +123,8 @@ export const CARD_COLORS: CardColor[] = [
     accent: '#db2777',
     background: '#fdf2f8',
     text: '#831843',
+    darkBackground: '#831843',
+    darkText: '#fce7f3',
   },
   {
     id: 'teal',
@@ -120,6 +134,8 @@ export const CARD_COLORS: CardColor[] = [
     accent: '#0d9488',
     background: '#f0fdfa',
     text: '#134e4a',
+    darkBackground: '#134e4a',
+    darkText: '#ccfbf1',
   },
   {
     id: 'indigo',
@@ -129,5 +145,7 @@ export const CARD_COLORS: CardColor[] = [
     accent: '#4f46e5',
     background: '#eef2ff',
     text: '#312e81',
+    darkBackground: '#312e81',
+    darkText: '#e0e7ff',
   },
 ];

@@ -15,7 +15,6 @@ export const SimpleStyledDownload: React.FC<SimpleStyledDownloadProps> = ({
 }) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [aspectRatio, setAspectRatio] = useState('800x600');
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
   const getDimensions = (ratio: string) => {
     const [width, height] = ratio.split('x').map(Number);
@@ -40,21 +39,6 @@ export const SimpleStyledDownload: React.FC<SimpleStyledDownloadProps> = ({
           // 忽略下载按钮等控制元素
           return element.hasAttribute('data-download-button');
         },
-        onclone: (clonedDoc) => {
-          const clonedElement = clonedDoc.querySelector('[data-info-card]') as HTMLElement;
-
-          // 应用主题样式
-          if (theme === 'dark' && clonedElement) {
-            // 使用 CSS filter 实现暗色主题
-            clonedElement.style.filter = 'invert(1) hue-rotate(180deg)';
-
-            // 对图片元素进行反向处理
-            const images = clonedElement.querySelectorAll('img');
-            images.forEach((img: Element) => {
-              (img as HTMLElement).style.filter = 'invert(1) hue-rotate(180deg)';
-            });
-          }
-        }
       });
 
       // 创建最终的画布用于调整尺寸
@@ -65,8 +49,8 @@ export const SimpleStyledDownload: React.FC<SimpleStyledDownloadProps> = ({
       finalCanvas.width = width * 2;
       finalCanvas.height = height * 2;
 
-      // 设置背景色
-      ctx.fillStyle = theme === 'dark' ? '#111827' : '#ffffff';
+      // 设置背景色为白色
+      ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
 
       // 计算缩放比例以适应目标尺寸
@@ -96,7 +80,7 @@ export const SimpleStyledDownload: React.FC<SimpleStyledDownloadProps> = ({
           const url = URL.createObjectURL(blob);
           const link = document.createElement('a');
           link.href = url;
-          link.download = `${fileName}-${aspectRatio}-${theme}-${Date.now()}.png`;
+          link.download = `${fileName}-${aspectRatio}-${Date.now()}.png`;
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
@@ -117,7 +101,7 @@ export const SimpleStyledDownload: React.FC<SimpleStyledDownloadProps> = ({
         <select
           value={aspectRatio}
           onChange={(e) => setAspectRatio(e.target.value)}
-          className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
           disabled={isGenerating}
         >
           <option value="800x600">4:3 (横版)</option>
@@ -125,16 +109,6 @@ export const SimpleStyledDownload: React.FC<SimpleStyledDownloadProps> = ({
           <option value="800x800">1:1 (正方形)</option>
           <option value="1024x576">16:9 (宽屏)</option>
           <option value="450x800">9:16 (手机竖屏)</option>
-        </select>
-
-        <select
-          value={theme}
-          onChange={(e) => setTheme(e.target.value as 'light' | 'dark')}
-          className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          disabled={isGenerating}
-        >
-          <option value="light">亮色主题</option>
-          <option value="dark">暗色主题</option>
         </select>
 
         <Button

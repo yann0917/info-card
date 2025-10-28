@@ -9,7 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## 技术栈
 
 **前端:**
-- React 18 + TypeScript + Vite
+- React 19 + TypeScript + Vite
 - Tailwind CSS + shadcn/ui 组件库
 - React Router + Zustand 状态管理
 

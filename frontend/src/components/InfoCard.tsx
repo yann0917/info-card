@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { useTheme } from '@/components/theme-provider';
 import type { CardData, CardStyle, CardColor } from '@/types';
 import { cn } from '@/lib/utils';
 
@@ -31,6 +32,19 @@ interface InfoCardProps {
 }
 
 export const InfoCard = React.forwardRef<HTMLDivElement, InfoCardProps>(({ data, style, color, className }, ref) => {
+  const { theme } = useTheme();
+
+  // 根据主题获取合适的颜色
+  const getThemedColor = () => {
+    const isDark = theme === 'dark';
+    return {
+      ...color,
+      background: isDark && color.darkBackground ? color.darkBackground : color.background,
+      text: isDark && color.darkText ? color.darkText : color.text,
+    };
+  };
+
+  const themedColor = getThemedColor();
   const getCardClasses = () => {
     const baseClasses = 'transition-all duration-300 hover:shadow-lg';
 
@@ -38,7 +52,7 @@ export const InfoCard = React.forwardRef<HTMLDivElement, InfoCardProps>(({ data,
       case 'modern':
         return cn(baseClasses, 'border-2 shadow-md', className);
       case 'minimal':
-        return cn(baseClasses, 'border-0 shadow-sm bg-gray-50', className);
+        return cn(baseClasses, 'border-0 shadow-sm bg-muted', className);
       case 'elegant':
         return cn(baseClasses, 'border-2 shadow-lg', className);
       case 'playful':
@@ -119,14 +133,14 @@ export const InfoCard = React.forwardRef<HTMLDivElement, InfoCardProps>(({ data,
     switch (style.id) {
       case 'modern':
         return {
-          backgroundColor: color.background,
-          color: color.text,
+          backgroundColor: themedColor.background,
+          color: themedColor.text,
           border: `1px solid ${color.secondary}`
         };
       case 'minimal':
         return {
-          backgroundColor: '#f3f4f6',
-          color: '#374151',
+          backgroundColor: 'hsl(var(--muted))',
+          color: 'hsl(var(--muted-foreground))',
           border: 'none'
         };
       case 'elegant':
@@ -143,8 +157,8 @@ export const InfoCard = React.forwardRef<HTMLDivElement, InfoCardProps>(({ data,
         };
       case 'professional':
         return {
-          backgroundColor: color.background,
-          color: color.text,
+          backgroundColor: themedColor.background,
+          color: themedColor.text,
           border: `1px solid ${color.primary}`
         };
       case 'gradient':
@@ -163,8 +177,8 @@ export const InfoCard = React.forwardRef<HTMLDivElement, InfoCardProps>(({ data,
         };
       case 'neumorphic':
         return {
-          backgroundColor: color.background,
-          color: color.text,
+          backgroundColor: themedColor.background,
+          color: themedColor.text,
           border: `1px solid ${color.primary}20`,
           boxShadow: '2px 2px 4px rgba(0,0,0,0.1), -2px -2px 4px rgba(255,255,255,0.9)'
         };
@@ -188,10 +202,10 @@ export const InfoCard = React.forwardRef<HTMLDivElement, InfoCardProps>(({ data,
     >
       {/* 卡片堆叠效果的装饰背景 */}
       {style.id === 'cardstack' && (
-        <div className="absolute -top-1 -left-1 right-2 bottom-2 bg-gray-200/30 rounded-xl transform rotate-1 -z-10" />
+        <div className="absolute -top-1 -left-1 right-2 bottom-2 bg-muted/30 rounded-xl transform rotate-1 -z-10" />
       )}
       {style.id === 'cardstack' && (
-        <div className="absolute -top-2 -left-2 right-4 bottom-4 bg-gray-300/20 rounded-xl transform -rotate-1 -z-10" />
+        <div className="absolute -top-2 -left-2 right-4 bottom-4 bg-border/20 rounded-xl transform -rotate-1 -z-10" />
       )}
 
       <CardHeader style={getHeaderStyle()}>
@@ -210,8 +224,8 @@ export const InfoCard = React.forwardRef<HTMLDivElement, InfoCardProps>(({ data,
 
       <CardContent className="p-6">
         <p
-          className="text-gray-700 mb-6 leading-relaxed"
-          style={{ color: color.text }}
+          className="text-foreground mb-6 leading-relaxed"
+          style={{ color: themedColor.text }}
         >
           {data.description}
         </p>
@@ -234,7 +248,7 @@ export const InfoCard = React.forwardRef<HTMLDivElement, InfoCardProps>(({ data,
                 <li
                   key={index}
                   className="flex items-start gap-2"
-                  style={{ color: color.text }}
+                  style={{ color: themedColor.text }}
                 >
                   <span
                     className="text-xs font-bold mt-1"
@@ -278,11 +292,11 @@ export const InfoCard = React.forwardRef<HTMLDivElement, InfoCardProps>(({ data,
         )}
 
         {data.metadata?.source && (
-          <div className="mt-4 pt-4 border-t border-gray-200">
-            <p className="text-xs text-gray-500">
+          <div className="mt-4 pt-4 border-t border-border">
+            <p className="text-xs text-muted-foreground">
               来源: {data.metadata.source}
             </p>
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-muted-foreground">
               提取时间: {new Date(data.metadata.extractedAt).toLocaleString('zh-CN')}
             </p>
           </div>

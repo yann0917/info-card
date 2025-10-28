@@ -28,6 +28,8 @@ export interface CardColor {
   accent: string;
   background: string;
   text: string;
+  darkBackground?: string;
+  darkText?: string;
 }
 
 export interface ExtractRequest {

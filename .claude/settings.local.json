@@ -20,7 +20,11 @@
       "Bash(npx tsc:*)",
       "Read(//Applications/Google Chrome.app/**)",
       "Bash(node:*)",
-      "Bash(npm uninstall:*)"
+      "Bash(npm uninstall:*)",
+      "Bash(npm run)",
+      "Read(//Applications/**)",
+      "Bash(kill:*)",
+      "Bash(npm outdated:*)"
     ],
     "deny": [],
     "ask": []
