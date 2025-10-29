@@ -46,17 +46,7 @@ export const CARD_STYLES: CardStyle[] = [
     name: '卡片堆叠风格',
     description: '多层卡片堆叠效果，立体感强',
   },
-  {
-    id: 'advanced-glass',
-    name: '高级玻璃拟态',
-    description: '水晶般通透的数字艺术品，融合印刷品秩序感',
-  },
-  {
-    id: 'crystal-print',
-    name: '水晶印刷风格',
-    description: '印刷级布局与玻璃质感的完美结合',
-  },
-];
+  ];
 
 export const CARD_COLORS: CardColor[] = [
   {

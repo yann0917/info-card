@@ -192,6 +192,20 @@ export const SimpleStyledDownload: React.FC<SimpleStyledDownloadProps> = ({
       const layoutConfig = getLayoutConfig(width, height);
       console.log('排版配置:', layoutConfig);
 
+      // 获取当前主题 - 直接从 localStorage 读取
+      const storedTheme = localStorage.getItem('vite-ui-theme');
+      let actualTheme: 'light' | 'dark';
+
+      if (storedTheme === 'system') {
+        // 系统主题：检查系统偏好
+        actualTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      } else {
+        // 使用存储的主题
+        actualTheme = storedTheme === 'dark' ? 'dark' : 'light';
+      }
+
+      const isDarkTheme = actualTheme === 'dark';
+
       // 创建适配目标尺寸的临时容器
       const tempContainer = document.createElement('div');
       tempContainer.style.width = width + 'px';
@@ -199,11 +213,13 @@ export const SimpleStyledDownload: React.FC<SimpleStyledDownloadProps> = ({
       tempContainer.style.position = 'absolute';
       tempContainer.style.left = '-9999px';
       tempContainer.style.top = '-9999px';
-      tempContainer.style.backgroundColor = '#ffffff';
+      tempContainer.style.backgroundColor = isDarkTheme ? '#0f172a' : '#ffffff'; // 根据主题设置背景色
       tempContainer.style.padding = '20px';
       tempContainer.style.boxSizing = 'border-box';
       tempContainer.style.overflow = 'hidden';
       document.body.appendChild(tempContainer);
+
+      console.log('存储的主题:', storedTheme, '实际主题:', actualTheme, '是否深色:', isDarkTheme);
 
       // 克隆元素到临时容器并应用排版样式
       const clonedElement = element.cloneNode(true) as HTMLElement;
@@ -213,7 +229,7 @@ export const SimpleStyledDownload: React.FC<SimpleStyledDownloadProps> = ({
       // 捕获重新排版后的元素
       const canvas = await html2canvas(tempContainer, {
         scale: 2, // 高清晰度
-        backgroundColor: '#ffffff',
+        backgroundColor: isDarkTheme ? '#0f172a' : '#ffffff', // 根据主题设置背景色
         useCORS: true,
         allowTaint: true,
         logging: false,
@@ -232,13 +248,14 @@ export const SimpleStyledDownload: React.FC<SimpleStyledDownloadProps> = ({
           if (clonedCard && styleId) {
             console.log('修复风格:', styleId);
 
+            // 统一处理所有风格的圆角问题
             const clonedHeader = clonedCard.querySelector('div[class*="rounded-t-"]') as HTMLElement;
             if (clonedHeader) {
-              // 移除 calc() 类
+              // 移除 calc() 类，应用固定圆角
               const calcClasses = Array.from(clonedHeader.classList).filter(cls => cls.includes('calc'));
               clonedHeader.classList.remove(...calcClasses);
 
-              // 应用固定圆角
+              // 根据风格应用正确的圆角值
               switch (styleId) {
                 case 'playful':
                   clonedHeader.style.borderRadius = '12px 12px 0 0';
@@ -247,11 +264,7 @@ export const SimpleStyledDownload: React.FC<SimpleStyledDownloadProps> = ({
                   clonedHeader.style.borderRadius = '7px 7px 0 0';
                   break;
                 case 'glassmorphism':
-                case 'advanced-glass':
                   clonedHeader.style.borderRadius = '11px 11px 0 0';
-                  break;
-                case 'crystal-print':
-                  clonedHeader.style.borderRadius = '7px 7px 0 0';
                   break;
               }
 

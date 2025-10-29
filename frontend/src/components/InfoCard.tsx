@@ -67,10 +67,6 @@ export const InfoCard = React.forwardRef<HTMLDivElement, InfoCardProps>(({ data,
         return cn(baseClasses, 'border-0 rounded-2xl shadow-[8px_8px_16px_rgba(0,0,0,0.1),-8px_-8px_16px_rgba(255,255,255,0.9)]', className);
       case 'cardstack':
         return cn(baseClasses, 'border-0 rounded-xl shadow-2xl relative', className);
-      case 'advanced-glass':
-        return cn(baseClasses, 'border border-white/30 shadow-2xl rounded-[0.75rem] backdrop-blur-[24px] bg-gradient-to-br from-white/15 to-white/5 relative overflow-hidden', className);
-      case 'crystal-print':
-        return cn(baseClasses, 'border border-white/25 shadow-2xl rounded-[0.5rem] backdrop-blur-[20px] bg-white/8 relative overflow-hidden', className);
       default:
         return cn(baseClasses, className);
     }
@@ -127,26 +123,6 @@ export const InfoCard = React.forwardRef<HTMLDivElement, InfoCardProps>(({ data,
           background: `linear-gradient(135deg, ${color.primary}, ${color.accent})`,
           color: 'white',
           boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
-        };
-      case 'advanced-glass':
-        return {
-          background: `linear-gradient(135deg, ${color.primary}CC, ${color.secondary}99)`,
-          color: 'white',
-          backdropFilter: 'blur(16px)',
-          border: '1px solid rgba(255,255,255,0.2)',
-          boxShadow: '0 8px 32px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.3)',
-          position: 'relative' as const,
-          overflow: 'hidden' as const
-        };
-      case 'crystal-print':
-        return {
-          background: `linear-gradient(145deg, ${color.primary}B3, ${color.accent}80)`,
-          color: 'white',
-          backdropFilter: 'blur(12px)',
-          border: '1px solid rgba(255,255,255,0.15)',
-          boxShadow: '0 6px 24px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.25)',
-          position: 'relative' as const,
-          overflow: 'hidden' as const
         };
       default:
         return { background: color.primary, color: 'white' };
@@ -213,22 +189,6 @@ export const InfoCard = React.forwardRef<HTMLDivElement, InfoCardProps>(({ data,
           border: 'none',
           boxShadow: '0 2px 6px rgba(0,0,0,0.15)'
         };
-      case 'advanced-glass':
-        return {
-          background: `linear-gradient(135deg, ${color.primary}40, ${color.secondary}20)`,
-          color: 'white',
-          border: '1px solid rgba(255,255,255,0.3)',
-          backdropFilter: 'blur(8px)',
-          boxShadow: '0 4px 16px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.4)'
-        };
-      case 'crystal-print':
-        return {
-          background: `linear-gradient(145deg, ${color.primary}30, ${color.accent}15)`,
-          color: 'white',
-          border: '1px solid rgba(255,255,255,0.25)',
-          backdropFilter: 'blur(6px)',
-          boxShadow: '0 3px 12px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.35)'
-        };
       default:
         return { backgroundColor: color.secondary, color: 'white' };
     }
@@ -280,20 +240,14 @@ export const InfoCard = React.forwardRef<HTMLDivElement, InfoCardProps>(({ data,
           // 商务风格 - 减小圆角半径以适应1px边框
           style.id === 'professional' && 'p-6 rounded-t-[calc(0.5rem-1px)]',
           // 毛玻璃风格 - 减小圆角半径以适应1px边框
-          style.id === 'glassmorphism' && 'p-6 rounded-t-[calc(0.75rem-1px)]',
-          // 高级玻璃风格 - 减小圆角半径以适应1px边框
-          style.id === 'advanced-glass' && 'p-6 rounded-t-[calc(0.75rem-1px)]',
-          // 水晶印刷风格 - 减小圆角半径以适应1px边框
-          style.id === 'crystal-print' && 'p-6 rounded-t-[calc(0.5rem-1px)]'
+          style.id === 'glassmorphism' && 'p-6 rounded-t-[calc(0.75rem-1px)]'
         )}
       >
         <div className="flex items-center gap-3">
           {/* 图标装饰 */}
-          {(style.id === 'gradient' || style.id === 'glassmorphism' || style.id === 'cardstack' || style.id === 'advanced-glass' || style.id === 'crystal-print') && (
+          {(style.id === 'gradient' || style.id === 'glassmorphism' || style.id === 'cardstack') && (
             <div className={cn(
               "w-8 h-8 rounded-full flex items-center justify-center",
-              style.id === 'advanced-glass' && "bg-white/25 backdrop-blur-md border border-white/30 shadow-lg",
-              style.id === 'crystal-print' && "bg-white/20 backdrop-blur-sm border border-white/25 shadow-md",
               (style.id === 'gradient' || style.id === 'glassmorphism' || style.id === 'cardstack') && "bg-white/20"
             )}>
               <InfoIcon className="w-4 h-4 text-white" />
@@ -319,18 +273,12 @@ export const InfoCard = React.forwardRef<HTMLDivElement, InfoCardProps>(({ data,
         {data.keyPoints.length > 0 && (
           <div className="mb-6 key-points-section">
             <div className="flex items-center gap-2 mb-3">
-              {(style.id === 'gradient' || style.id === 'glassmorphism' || style.id === 'cardstack' || style.id === 'advanced-glass' || style.id === 'crystal-print') && (
-                <KeyIcon className={cn(
-                  "w-4 h-4",
-                  (style.id === 'advanced-glass' || style.id === 'crystal-print') && (theme === 'dark' ? 'text-white/80' : 'text-foreground')
-                )} style={{ color: style.id === 'advanced-glass' || style.id === 'crystal-print' ? (theme === 'dark' ? undefined : themedColor.text) : color.primary }} />
+              {(style.id === 'gradient' || style.id === 'glassmorphism' || style.id === 'cardstack') && (
+                <KeyIcon className="w-4 h-4" style={{ color: color.primary }} />
               )}
               <h4
-                className={cn(
-                  "font-semibold text-sm uppercase tracking-wide key-points-title",
-                  (style.id === 'advanced-glass' || style.id === 'crystal-print') && (theme === 'dark' ? 'text-white/90' : 'text-foreground')
-                )}
-                style={{ color: style.id === 'advanced-glass' || style.id === 'crystal-print' ? (theme === 'dark' ? undefined : themedColor.text) : color.primary }}
+                className="font-semibold text-sm uppercase tracking-wide key-points-title"
+                style={{ color: color.primary }}
               >
                 关键要点
               </h4>
@@ -358,11 +306,8 @@ export const InfoCard = React.forwardRef<HTMLDivElement, InfoCardProps>(({ data,
         {data.tags.length > 0 && (
           <div className="mb-4 tags-section">
             <div className="flex items-center gap-2 mb-3">
-              {(style.id === 'gradient' || style.id === 'glassmorphism' || style.id === 'cardstack' || style.id === 'advanced-glass' || style.id === 'crystal-print') && (
-                <TagIcon className={cn(
-                  "w-4 h-4",
-                  (style.id === 'advanced-glass' || style.id === 'crystal-print') && (theme === 'dark' ? 'text-white/80' : 'text-foreground')
-                )} style={{ color: style.id === 'advanced-glass' || style.id === 'crystal-print' ? (theme === 'dark' ? undefined : themedColor.text) : color.primary }} />
+              {(style.id === 'gradient' || style.id === 'glassmorphism' || style.id === 'cardstack') && (
+                <TagIcon className="w-4 h-4" style={{ color: color.primary }} />
               )}
               <h4
                 className={cn(
