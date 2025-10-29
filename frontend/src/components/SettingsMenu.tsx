@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
@@ -12,7 +11,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Button } from '@/components/ui/button';
 import { Settings, X } from 'lucide-react';
 import { ApiService } from '@/services/api';
-import type { AIProvider, ProviderInfo } from '@/types';
+import { configStorage } from '@/lib/configStorage';
+import type { ProviderInfo } from '@/types';
 
 interface SettingsMenuProps {
   selectedProvider: string;
@@ -56,7 +56,21 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
     }
   };
 
-  const currentProvider = providers.find(p => p.name === selectedProvider);
+  // 当配置变化时保存到 localStorage
+  const handleProviderChange = (provider: string) => {
+    onProviderChange(provider);
+    configStorage.saveConfig({ selectedProvider: provider });
+  };
+
+  const handleModelChange = (model: string) => {
+    onModelChange(model);
+    configStorage.saveConfig({ selectedModel: model });
+  };
+
+  const handleApiKeyChange = (apiKey: string) => {
+    onApiKeyChange(apiKey);
+    // 注意：API 密钥不保存到 localStorage，出于安全考虑
+  };
 
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
@@ -91,7 +105,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
               <label className="block text-sm font-medium mb-2">
                 AI 提供商
               </label>
-              <Select value={selectedProvider} onValueChange={onProviderChange}>
+              <Select value={selectedProvider} onValueChange={handleProviderChange}>
                 <SelectTrigger>
                   <SelectValue placeholder="选择 AI 提供商" />
                 </SelectTrigger>
@@ -109,7 +123,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
               <label className="block text-sm font-medium mb-2">
                 模型
               </label>
-              <Select value={selectedModel} onValueChange={onModelChange}>
+              <Select value={selectedModel} onValueChange={handleModelChange}>
                 <SelectTrigger>
                   <SelectValue placeholder="选择模型" />
                 </SelectTrigger>
@@ -134,7 +148,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
                 type="password"
                 placeholder="输入 API 密钥..."
                 value={apiKey}
-                onChange={(e) => onApiKeyChange(e.target.value)}
+                onChange={(e) => handleApiKeyChange(e.target.value)}
                 className="text-sm"
               />
               <p className="text-xs text-muted-foreground mt-1">

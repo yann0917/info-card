@@ -81,20 +81,27 @@ export class InfoCardController {
   };
 
   getSupportedProviders = (req: Request, res: Response): void => {
-    const providers = [
-      {
-        name: 'openai',
-        displayName: 'OpenAI',
-        models: ['gpt-4o', 'gpt-4'],
-        required: ['apiKey'],
-        description: 'OpenAI GPT 模型'
-      },
+    const providers = [ 
       {
         name: 'deepseek',
         displayName: 'DeepSeek',
         models: ['deepseek-chat', 'deepseek-reasoner'],
         required: ['apiKey'],
         description: 'DeepSeek AI 模型'
+      },
+      {
+        name: 'zhipu',
+        displayName: '智谱 AI',
+        models: ['glm-4.6', 'glm-4.5', 'glm-4.5-air','glm-4.5-flash'],
+        required: ['apiKey'],
+        description: '智谱 GLM 模型'
+      },
+      {
+        name: 'openai',
+        displayName: 'OpenAI',
+        models: ['gpt-4o', 'gpt-4'],
+        required: ['apiKey'],
+        description: 'OpenAI GPT 模型'
       },
       {
         name: 'azure',
@@ -123,13 +130,6 @@ export class InfoCardController {
         models: ['anthropic/claude-3-sonnet', 'openai/gpt-3.5-turbo'],
         required: ['apiKey'],
         description: 'OpenRouter 聚合服务'
-      },
-      {
-        name: 'zhipu',
-        displayName: '智谱 AI',
-        models: ['glm-4.6', 'glm-4.5', 'glm-4.5-air','glm-4.5-flash'],
-        required: ['apiKey'],
-        description: '智谱 GLM 模型'
       }
     ];
 

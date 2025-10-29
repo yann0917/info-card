@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -10,6 +10,7 @@ import { ModeToggle } from '@/components/mode-toggle';
 import { SettingsMenu } from '@/components/SettingsMenu';
 import { useTheme } from '@/components/theme-provider';
 import { ApiService } from '@/services/api';
+import { configStorage } from '@/lib/configStorage';
 import { CARD_COLORS, CARD_STYLES } from '@/constants/styles';
 import type { CardData, AIProvider, CardStyle, CardColor } from '@/types';
 
@@ -27,6 +28,26 @@ function App() {
   const [cardData, setCardData] = useState<CardData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // 在组件挂载时从 localStorage 读取配置
+  useEffect(() => {
+    const savedConfig = configStorage.getConfig();
+
+    // 恢复 AI 提供商和模型配置
+    setSelectedProvider(savedConfig.selectedProvider);
+    setSelectedModel(savedConfig.selectedModel);
+
+    // 恢复卡片样式配置
+    const savedStyle = CARD_STYLES.find(s => s.id === savedConfig.selectedStyle.id);
+    if (savedStyle) {
+      setSelectedStyle(savedStyle);
+    }
+
+    const savedColor = CARD_COLORS.find(c => c.id === savedConfig.selectedColor.id);
+    if (savedColor) {
+      setSelectedColor(savedColor);
+    }
+  }, []);
 
   const handleExtract = async () => {
     if (!url.trim() && !text.trim()) {
@@ -67,7 +88,18 @@ function App() {
     }
   };
 
-  
+  // 处理样式配置变化并保存到 localStorage
+  const handleStyleChange = (styleId: string) => {
+    const newStyle = CARD_STYLES.find(s => s.id === styleId) || CARD_STYLES[0];
+    setSelectedStyle(newStyle);
+    configStorage.saveConfig({ selectedStyle: newStyle });
+  };
+
+  const handleColorChange = (color: CardColor) => {
+    setSelectedColor(color);
+    configStorage.saveConfig({ selectedColor: color });
+  };
+
   return (
     <div className="min-h-screen bg-background p-4">
       <div className="max-w-6xl mx-auto">
@@ -146,9 +178,7 @@ function App() {
                   </label>
                   <Select
                     value={selectedStyle.id}
-                    onValueChange={(styleId) =>
-                      setSelectedStyle(CARD_STYLES.find(s => s.id === styleId) || CARD_STYLES[0])
-                    }
+                    onValueChange={handleStyleChange}
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="选择风格" />
@@ -177,7 +207,7 @@ function App() {
                             : 'border-border'
                         }`}
                         style={{ backgroundColor: theme === 'dark' && color.darkBackground ? color.darkBackground : color.background }}
-                        onClick={() => setSelectedColor(color)}
+                        onClick={() => handleColorChange(color)}
                       >
                         <div className="flex items-center gap-2">
                           <div
