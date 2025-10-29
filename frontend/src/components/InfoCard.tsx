@@ -239,6 +239,7 @@ export const InfoCard = React.forwardRef<HTMLDivElement, InfoCardProps>(({ data,
       ref={ref}
       className={getCardClasses()}
       style={{ borderColor: color.primary }}
+      data-card-style={style.id}
     >
       {/* 卡片堆叠效果的装饰背景 */}
       {style.id === 'cardstack' && (
@@ -271,7 +272,21 @@ export const InfoCard = React.forwardRef<HTMLDivElement, InfoCardProps>(({ data,
         </>
       )}
 
-      <CardHeader style={getHeaderStyle()}>
+      <CardHeader
+        style={getHeaderStyle()}
+        className={cn(
+          // 活泼风格 - 减小圆角半径以适应4px边框
+          style.id === 'playful' && 'p-6 rounded-t-[calc(1rem-4px)]',
+          // 商务风格 - 减小圆角半径以适应1px边框
+          style.id === 'professional' && 'p-6 rounded-t-[calc(0.5rem-1px)]',
+          // 毛玻璃风格 - 减小圆角半径以适应1px边框
+          style.id === 'glassmorphism' && 'p-6 rounded-t-[calc(0.75rem-1px)]',
+          // 高级玻璃风格 - 减小圆角半径以适应1px边框
+          style.id === 'advanced-glass' && 'p-6 rounded-t-[calc(0.75rem-1px)]',
+          // 水晶印刷风格 - 减小圆角半径以适应1px边框
+          style.id === 'crystal-print' && 'p-6 rounded-t-[calc(0.5rem-1px)]'
+        )}
+      >
         <div className="flex items-center gap-3">
           {/* 图标装饰 */}
           {(style.id === 'gradient' || style.id === 'glassmorphism' || style.id === 'cardstack' || style.id === 'advanced-glass' || style.id === 'crystal-print') && (
@@ -302,20 +317,20 @@ export const InfoCard = React.forwardRef<HTMLDivElement, InfoCardProps>(({ data,
         </p>
 
         {data.keyPoints.length > 0 && (
-          <div className="mb-6">
+          <div className="mb-6 key-points-section">
             <div className="flex items-center gap-2 mb-3">
               {(style.id === 'gradient' || style.id === 'glassmorphism' || style.id === 'cardstack' || style.id === 'advanced-glass' || style.id === 'crystal-print') && (
                 <KeyIcon className={cn(
                   "w-4 h-4",
-                  (style.id === 'advanced-glass' || style.id === 'crystal-print') && "text-white/80"
-                )} style={{ color: style.id === 'advanced-glass' || style.id === 'crystal-print' ? undefined : color.primary }} />
+                  (style.id === 'advanced-glass' || style.id === 'crystal-print') && (theme === 'dark' ? 'text-white/80' : 'text-foreground')
+                )} style={{ color: style.id === 'advanced-glass' || style.id === 'crystal-print' ? (theme === 'dark' ? undefined : themedColor.text) : color.primary }} />
               )}
               <h4
                 className={cn(
-                  "font-semibold text-sm uppercase tracking-wide",
-                  (style.id === 'advanced-glass' || style.id === 'crystal-print') && "text-white/90"
+                  "font-semibold text-sm uppercase tracking-wide key-points-title",
+                  (style.id === 'advanced-glass' || style.id === 'crystal-print') && (theme === 'dark' ? 'text-white/90' : 'text-foreground')
                 )}
-                style={{ color: style.id === 'advanced-glass' || style.id === 'crystal-print' ? undefined : color.primary }}
+                style={{ color: style.id === 'advanced-glass' || style.id === 'crystal-print' ? (theme === 'dark' ? undefined : themedColor.text) : color.primary }}
               >
                 关键要点
               </h4>
@@ -341,20 +356,20 @@ export const InfoCard = React.forwardRef<HTMLDivElement, InfoCardProps>(({ data,
         )}
 
         {data.tags.length > 0 && (
-          <div className="mb-4">
+          <div className="mb-4 tags-section">
             <div className="flex items-center gap-2 mb-3">
               {(style.id === 'gradient' || style.id === 'glassmorphism' || style.id === 'cardstack' || style.id === 'advanced-glass' || style.id === 'crystal-print') && (
                 <TagIcon className={cn(
                   "w-4 h-4",
-                  (style.id === 'advanced-glass' || style.id === 'crystal-print') && "text-white/80"
-                )} style={{ color: style.id === 'advanced-glass' || style.id === 'crystal-print' ? undefined : color.primary }} />
+                  (style.id === 'advanced-glass' || style.id === 'crystal-print') && (theme === 'dark' ? 'text-white/80' : 'text-foreground')
+                )} style={{ color: style.id === 'advanced-glass' || style.id === 'crystal-print' ? (theme === 'dark' ? undefined : themedColor.text) : color.primary }} />
               )}
               <h4
                 className={cn(
-                  "font-semibold text-sm uppercase tracking-wide",
-                  (style.id === 'advanced-glass' || style.id === 'crystal-print') && "text-white/90"
+                  "font-semibold text-sm uppercase tracking-wide tags-title",
+                  (style.id === 'advanced-glass' || style.id === 'crystal-print') && (theme === 'dark' ? 'text-white/90' : 'text-foreground')
                 )}
-                style={{ color: style.id === 'advanced-glass' || style.id === 'crystal-print' ? undefined : color.primary }}
+                style={{ color: style.id === 'advanced-glass' || style.id === 'crystal-print' ? (theme === 'dark' ? undefined : themedColor.text) : color.primary }}
               >
                 标签
               </h4>
