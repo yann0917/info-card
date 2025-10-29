@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -7,10 +7,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { InfoCard } from '@/components/InfoCard';
 import { SimpleStyledDownload } from '@/components/SimpleStyledDownload';
 import { ModeToggle } from '@/components/mode-toggle';
+import { SettingsMenu } from '@/components/SettingsMenu';
 import { useTheme } from '@/components/theme-provider';
 import { ApiService } from '@/services/api';
 import { CARD_COLORS, CARD_STYLES } from '@/constants/styles';
-import type { CardData, AIProvider, ProviderInfo, CardStyle, CardColor } from '@/types';
+import type { CardData, AIProvider, CardStyle, CardColor } from '@/types';
 
 function App() {
   const { theme } = useTheme();
@@ -26,30 +27,6 @@ function App() {
   const [cardData, setCardData] = useState<CardData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [providers, setProviders] = useState<ProviderInfo[]>([]);
-
-  useEffect(() => {
-    loadProviders();
-  }, []);
-
-  useEffect(() => {
-    const provider = providers.find(p => p.name === selectedProvider);
-    if (provider) {
-      setSelectedModel(provider.models[0] || '');
-    }
-  }, [selectedProvider, providers]);
-
-  const loadProviders = async () => {
-    try {
-      const response = await ApiService.getSupportedProviders();
-      if (response.success) {
-        setProviders(response.data);
-      }
-    } catch (err) {
-      console.error('加载提供商失败:', err);
-      setError('加载 AI 提供商失败');
-    }
-  };
 
   const handleExtract = async () => {
     if (!url.trim() && !text.trim()) {
@@ -90,8 +67,7 @@ function App() {
     }
   };
 
-  const currentProvider = providers.find(p => p.name === selectedProvider);
-
+  
   return (
     <div className="min-h-screen bg-background p-4">
       <div className="max-w-6xl mx-auto">
@@ -104,7 +80,15 @@ function App() {
               输入链接或文本，AI 自动提取关键信息生成精美卡片
             </p>
           </div>
-          <div className="flex-shrink-0">
+          <div className="flex items-center gap-2">
+            <SettingsMenu
+              selectedProvider={selectedProvider}
+              selectedModel={selectedModel}
+              apiKey={apiKey}
+              onProviderChange={setSelectedProvider}
+              onModelChange={setSelectedModel}
+              onApiKeyChange={setApiKey}
+            />
             <ModeToggle />
           </div>
         </header>
@@ -147,67 +131,6 @@ function App() {
                     rows={6}
                   />
                 )}
-              </CardContent>
-            </Card>
-
-            {/* AI 配置 */}
-            <Card>
-              <CardHeader>
-                <CardTitle>AI 配置</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    AI 提供商
-                  </label>
-                  <Select value={selectedProvider} onValueChange={setSelectedProvider}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="选择 AI 提供商" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {providers.map((provider) => (
-                        <SelectItem key={provider.name} value={provider.name}>
-                          {provider.displayName}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {currentProvider && (
-                  <div>
-                    <label className="block text-sm font-medium mb-2">
-                      模型
-                    </label>
-                    <Select value={selectedModel} onValueChange={setSelectedModel}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="选择模型" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {currentProvider.models.map((model) => (
-                          <SelectItem key={model} value={model}>
-                            {model}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                )}
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    API 密钥 (可选)
-                  </label>
-                  <Input
-                    type="password"
-                    placeholder="输入 API 密钥..."
-                    value={apiKey}
-                    onChange={(e) => setApiKey(e.target.value)}
-                  />
-                  <p className="text-xs text-gray-500 mt-1">
-                    留空将使用服务器配置的密钥
-                  </p>
-                </div>
               </CardContent>
             </Card>
 
@@ -269,6 +192,21 @@ function App() {
                     ))}
                   </div>
                 </div>
+              </CardContent>
+            </Card>
+
+            {/* 提示信息 */}
+            <Card>
+              <CardHeader>
+                <CardTitle>使用提示</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-sm text-muted-foreground">
+                  点击右上角的设置按钮可以配置 AI 提供商、模型和 API 密钥。
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  支持多种 AI 模型和丰富的卡片风格，让您的信息卡片更加个性化。
+                </p>
               </CardContent>
             </Card>
 
