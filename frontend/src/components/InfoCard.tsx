@@ -67,6 +67,10 @@ export const InfoCard = React.forwardRef<HTMLDivElement, InfoCardProps>(({ data,
         return cn(baseClasses, 'border-0 rounded-2xl shadow-[8px_8px_16px_rgba(0,0,0,0.1),-8px_-8px_16px_rgba(255,255,255,0.9)]', className);
       case 'cardstack':
         return cn(baseClasses, 'border-0 rounded-xl shadow-2xl relative', className);
+      case 'advanced-glass':
+        return cn(baseClasses, 'border border-white/30 shadow-2xl rounded-[0.75rem] backdrop-blur-[24px] bg-gradient-to-br from-white/15 to-white/5 relative overflow-hidden', className);
+      case 'crystal-print':
+        return cn(baseClasses, 'border border-white/25 shadow-2xl rounded-[0.5rem] backdrop-blur-[20px] bg-white/8 relative overflow-hidden', className);
       default:
         return cn(baseClasses, className);
     }
@@ -123,6 +127,26 @@ export const InfoCard = React.forwardRef<HTMLDivElement, InfoCardProps>(({ data,
           background: `linear-gradient(135deg, ${color.primary}, ${color.accent})`,
           color: 'white',
           boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
+        };
+      case 'advanced-glass':
+        return {
+          background: `linear-gradient(135deg, ${color.primary}CC, ${color.secondary}99)`,
+          color: 'white',
+          backdropFilter: 'blur(16px)',
+          border: '1px solid rgba(255,255,255,0.2)',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.3)',
+          position: 'relative' as const,
+          overflow: 'hidden' as const
+        };
+      case 'crystal-print':
+        return {
+          background: `linear-gradient(145deg, ${color.primary}B3, ${color.accent}80)`,
+          color: 'white',
+          backdropFilter: 'blur(12px)',
+          border: '1px solid rgba(255,255,255,0.15)',
+          boxShadow: '0 6px 24px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.25)',
+          position: 'relative' as const,
+          overflow: 'hidden' as const
         };
       default:
         return { background: color.primary, color: 'white' };
@@ -189,6 +213,22 @@ export const InfoCard = React.forwardRef<HTMLDivElement, InfoCardProps>(({ data,
           border: 'none',
           boxShadow: '0 2px 6px rgba(0,0,0,0.15)'
         };
+      case 'advanced-glass':
+        return {
+          background: `linear-gradient(135deg, ${color.primary}40, ${color.secondary}20)`,
+          color: 'white',
+          border: '1px solid rgba(255,255,255,0.3)',
+          backdropFilter: 'blur(8px)',
+          boxShadow: '0 4px 16px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.4)'
+        };
+      case 'crystal-print':
+        return {
+          background: `linear-gradient(145deg, ${color.primary}30, ${color.accent}15)`,
+          color: 'white',
+          border: '1px solid rgba(255,255,255,0.25)',
+          backdropFilter: 'blur(6px)',
+          boxShadow: '0 3px 12px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.35)'
+        };
       default:
         return { backgroundColor: color.secondary, color: 'white' };
     }
@@ -208,15 +248,46 @@ export const InfoCard = React.forwardRef<HTMLDivElement, InfoCardProps>(({ data,
         <div className="absolute -top-2 -left-2 right-4 bottom-4 bg-border/20 rounded-xl transform -rotate-1 -z-10" />
       )}
 
+      {/* 高级玻璃拟态的光晕装饰 */}
+      {(style.id === 'advanced-glass' || style.id === 'crystal-print') && (
+        <>
+          {/* 右上角光晕 */}
+          <div
+            className="absolute -top-8 -right-8 w-32 h-32 rounded-full opacity-30 blur-2xl -z-10"
+            style={{
+              background: `radial-gradient(circle, ${color.primary}40, transparent 70%)`
+            }}
+          />
+          {/* 左下角光晕 */}
+          <div
+            className="absolute -bottom-6 -left-6 w-24 h-24 rounded-full opacity-20 blur-xl -z-10"
+            style={{
+              background: `radial-gradient(circle, ${color.secondary}30, transparent 70%)`
+            }}
+          />
+          {/* 玻璃反光效果 */}
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-60" />
+          <div className="absolute top-2 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent opacity-40" />
+        </>
+      )}
+
       <CardHeader style={getHeaderStyle()}>
         <div className="flex items-center gap-3">
           {/* 图标装饰 */}
-          {(style.id === 'gradient' || style.id === 'glassmorphism' || style.id === 'cardstack') && (
-            <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-              <InfoIcon className="w-4 h-4" />
+          {(style.id === 'gradient' || style.id === 'glassmorphism' || style.id === 'cardstack' || style.id === 'advanced-glass' || style.id === 'crystal-print') && (
+            <div className={cn(
+              "w-8 h-8 rounded-full flex items-center justify-center",
+              style.id === 'advanced-glass' && "bg-white/25 backdrop-blur-md border border-white/30 shadow-lg",
+              style.id === 'crystal-print' && "bg-white/20 backdrop-blur-sm border border-white/25 shadow-md",
+              (style.id === 'gradient' || style.id === 'glassmorphism' || style.id === 'cardstack') && "bg-white/20"
+            )}>
+              <InfoIcon className="w-4 h-4 text-white" />
             </div>
           )}
-          <CardTitle className="text-xl font-bold leading-tight flex-1">
+          <CardTitle className={cn(
+            "text-xl font-bold leading-tight flex-1",
+            (style.id === 'advanced-glass' || style.id === 'crystal-print') && "tracking-wide"
+          )}>
             {data.title}
           </CardTitle>
         </div>
@@ -233,12 +304,18 @@ export const InfoCard = React.forwardRef<HTMLDivElement, InfoCardProps>(({ data,
         {data.keyPoints.length > 0 && (
           <div className="mb-6">
             <div className="flex items-center gap-2 mb-3">
-              {(style.id === 'gradient' || style.id === 'glassmorphism' || style.id === 'cardstack') && (
-                <KeyIcon className="w-4 h-4" style={{ color: color.primary }} />
+              {(style.id === 'gradient' || style.id === 'glassmorphism' || style.id === 'cardstack' || style.id === 'advanced-glass' || style.id === 'crystal-print') && (
+                <KeyIcon className={cn(
+                  "w-4 h-4",
+                  (style.id === 'advanced-glass' || style.id === 'crystal-print') && "text-white/80"
+                )} style={{ color: style.id === 'advanced-glass' || style.id === 'crystal-print' ? undefined : color.primary }} />
               )}
               <h4
-                className="font-semibold text-sm uppercase tracking-wide"
-                style={{ color: color.primary }}
+                className={cn(
+                  "font-semibold text-sm uppercase tracking-wide",
+                  (style.id === 'advanced-glass' || style.id === 'crystal-print') && "text-white/90"
+                )}
+                style={{ color: style.id === 'advanced-glass' || style.id === 'crystal-print' ? undefined : color.primary }}
               >
                 关键要点
               </h4>
@@ -266,12 +343,18 @@ export const InfoCard = React.forwardRef<HTMLDivElement, InfoCardProps>(({ data,
         {data.tags.length > 0 && (
           <div className="mb-4">
             <div className="flex items-center gap-2 mb-3">
-              {(style.id === 'gradient' || style.id === 'glassmorphism' || style.id === 'cardstack') && (
-                <TagIcon className="w-4 h-4" style={{ color: color.primary }} />
+              {(style.id === 'gradient' || style.id === 'glassmorphism' || style.id === 'cardstack' || style.id === 'advanced-glass' || style.id === 'crystal-print') && (
+                <TagIcon className={cn(
+                  "w-4 h-4",
+                  (style.id === 'advanced-glass' || style.id === 'crystal-print') && "text-white/80"
+                )} style={{ color: style.id === 'advanced-glass' || style.id === 'crystal-print' ? undefined : color.primary }} />
               )}
               <h4
-                className="font-semibold text-sm uppercase tracking-wide"
-                style={{ color: color.primary }}
+                className={cn(
+                  "font-semibold text-sm uppercase tracking-wide",
+                  (style.id === 'advanced-glass' || style.id === 'crystal-print') && "text-white/90"
+                )}
+                style={{ color: style.id === 'advanced-glass' || style.id === 'crystal-print' ? undefined : color.primary }}
               >
                 标签
               </h4>
